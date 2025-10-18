@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="CryptoArbBot - 24/7 Automated Crypto Arbitrage Investment Platform" />
+    <title>CryptoArbBot | 24/7 Crypto Arbitrage Investment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#7C3AED',
+                        accent: '#10B981'
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(circle, var(--tw-gradient-stops))',
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234F46E5' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E\")"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .plan-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .hidden-address {
+            font-family: monospace;
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .reveal-address {
+            font-family: monospace;
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            word-break: break-all;
+        }
+        .sticky-contact {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .stats-counter {
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+        @media (min-width: 768px) {
+            .stats-counter {
+                font-size: 3.5rem;
+            }
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .upload-preview {
+            max-height: 200px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="bg-gray-900 dark:bg-gray-800 shadow-lg fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="h-10 w-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-line text-white text-xl"></i>
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-white">CryptoArbBot</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-1">
+                    <button data-page="home" class="page-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-white bg-blue-600 shadow-lg">Home</button>
+                    <button data-page="dashboard" class="page-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">Plans</button>
+                    <button data-page="payment" class="page-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">Payment</button>
+                    <button data-page="contact" class="page-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">Contact</button>
+                    <button data-page="about" class="page-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">About</button>
+                    <button data-page="faq" class="page-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">FAQ</button>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="darkModeToggle" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+                        <i class="fas fa-moon text-lg"></i>
+                    </button>
+                    
+                    <div class="md:hidden">
+                        <button id="mobileMenuButton" class="text-gray-400 hover:text-white p-2">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="hidden md:hidden py-4 border-t border-gray-700">
+                <button data-page="home" class="page-link block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-white bg-blue-600">Home</button>
+                <button data-page="dashboard" class="page-link block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">Plans</button>
+                <button data-page="payment" class="page-link block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">Payment</button>
+                <button data-page="contact" class="page-link block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">Contact</button>
+                <button data-page="about" class="page-link block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">About</button>
+                <button data-page="faq" class="page-link block w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-gray-300 hover:text-white hover:bg-gray-700">FAQ</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active pt-16">
+        <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-primary to-secondary dark:from-gray-800 dark:via-primary dark:to-secondary relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10">
+                <div class="mb-8">
+                    <span class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-full mb-4 animate-pulse">TRUSTED SINCE 2021</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                    Invest in Our Trusted 24/7 <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-green-300">Crypto Arbitrage Bot</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-200 mb-8 font-light">Fast. Secure. Transparent.</p>
+                <p class="text-lg text-gray-200 max-w-3xl mx-auto mb-12">
+                    Our advanced arbitrage bot operates 24/7 across multiple exchanges to capture price differences and generate consistent returns for our investors.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                    <button data-page="dashboard" class="page-link px-8 py-4 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-xl transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
+                        View Investment Plans
+                    </button>
+                    <button data-page="contact" class="page-link px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-gray-900 transition-all hover:scale-105">
+                        Contact Support
+                    </button>
+                </div>
+                
+                <!-- Stats Strip -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-white/20 shadow-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="text-center">
+                            <div class="stats-counter text-white mb-2 flex justify-center">
+                                <span class="mr-2">👥</span>
+                                <span id="investorsCount">0</span>
+                                <span class="text-accent ml-1">+</span>
+                            </div>
+                            <div class="text-blue-200 font-medium text-lg">Total Investors</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stats-counter text-white mb-2 flex justify-center">
+                                <span class="mr-2">📈</span>
+                                <span id="activePlansCount">0</span>
+                                <span class="text-accent ml-1">+</span>
+                            </div>
+                            <div class="text-blue-200 font-medium text-lg">Active Plans</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stats-counter text-white mb-2 flex justify-center">
+                                <span class="mr-2">💰</span>
+                                <span id="payoutsCount">0</span>
+                                <span class="text-accent ml-1">M+</span>
+                            </div>
+                            <div class="text-blue-200 font-medium text-lg">Total Payouts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-gray-50 dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Why Choose Our Arbitrage Bot?</h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        Experience the future of automated crypto trading with our advanced, secure, and profitable arbitrage system.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+                                <i class="fas fa-clock text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center text-gray-900 dark:text-white">24/7 Automated Trading</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">Our bot never sleeps, constantly scanning 50+ exchanges for profitable arbitrage opportunities.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center text-gray-900 dark:text-white">Military-Grade Security</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">Your funds are protected with multi-signature wallets, cold storage, and regular security audits.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-chart-line text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center text-gray-900 dark:text-white">Transparent & Verifiable</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">Track every trade and profit in real-time with our transparent dashboard and transaction history.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard" class="page pt-16 pb-20 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Investment Plans</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Choose the plan that fits your investment goals</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- Base Plan -->
+                <div class="plan-card bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <div class="h-2 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Base Plan</h3>
+                            <span class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                                3× Return
+                            </span>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-clock text-blue-500 mr-2"></i>
+                            <span class="text-gray-600 dark:text-gray-300">45 min – 1 hour</span>
+                        </div>
+                        <div class="space-y-4 mb-8">
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-md" data-plan="Base Plan" data-amount="50" data-return="150">
+                                $50 → $150
+                            </button>
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-md" data-plan="Base Plan" data-amount="100" data-return="300">
+                                $100 → $300
+                            </button>
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-md" data-plan="Base Plan" data-amount="200" data-return="600">
+                                $200 → $600
+                            </button>
+                        </div>
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-xl">
+                            <p class="text-sm text-blue-700 dark:text-blue-300">Fastest returns, perfect for beginners. Minimum deposit: $50. Processing time: Under 1 hour.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Silver Plan -->
+                <div class="plan-card bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <div class="h-2 bg-gradient-to-r from-gray-400 to-gray-600"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Silver Plan</h3>
+                            <span class="bg-gradient-to-r from-gray-400 to-gray-600 text-white px-4 py-2 rounded-full text-sm font-bold">
+                                5× Return
+                            </span>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-clock text-gray-500 mr-2"></i>
+                            <span class="text-gray-600 dark:text-gray-300">6 – 8 hours</span>
+                        </div>
+                        <div class="space-y-4 mb-8">
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 shadow-md" data-plan="Silver Plan" data-amount="500" data-return="2500">
+                                $500 → $2,500
+                            </button>
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 shadow-md" data-plan="Silver Plan" data-amount="1000" data-return="5000">
+                                $1,000 → $5,000
+                            </button>
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 shadow-md" data-plan="Silver Plan" data-amount="2500" data-return="12500">
+                                $2,500 → $12,500
+                            </button>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mb-4">
+                            <p class="text-sm text-yellow-700 dark:text-yellow-300 font-medium">✨ 15% bonus after 3 purchases</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-900/30 p-4 rounded-xl">
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Minimum deposit: $500. Processing time: 6-8 hours.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Golden Plan -->
+                <div class="plan-card bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <div class="h-2 bg-gradient-to-r from-yellow-400 to-yellow-600"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Golden Plan</h3>
+                            <span class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-4 py-2 rounded-full text-sm font-bold">
+                                10× Return
+                            </span>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                            <span class="text-gray-600 dark:text-gray-300">20 – 30 days</span>
+                        </div>
+                        <div class="space-y-4 mb-8">
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-md" data-plan="Golden Plan" data-amount="50000" data-return="500000">
+                                $50,000 → $500,000
+                            </button>
+                            <button class="invest-amount w-full py-3 px-4 rounded-lg font-medium text-white bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 shadow-md" data-plan="Golden Plan" data-amount="100000" data-return="1000000">
+                                $100,000 → $1,000,000
+                            </button>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mb-4">
+                            <p class="text-sm text-yellow-700 dark:text-yellow-300 font-medium">✨ 25% bonus after 1 purchase</p>
+                        </div>
+                        <div class="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-xl">
+                            <p class="text-sm text-yellow-700 dark:text-yellow-300">Minimum deposit: $50,000. Processing time: 20-30 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-8 rounded-2xl">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-3xl mr-4 mt-1"></i>
+                    <div>
+                        <h3 class="text-xl font-bold mb-3">Important Risk Disclaimer</h3>
+                        <p>
+                            Crypto investments are high-risk. Past returns are not guarantees of future performance. 
+                            Only invest what you can afford to lose. Our arbitrage bot aims to minimize risk through diversification and automated risk management, 
+                            but market conditions can change rapidly. Please read our full Terms & Conditions before investing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div id="payment" class="page pt-16 pb-20 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Payment Methods</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Securely fund your investment</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 mb-16">
+                <!-- Payment Methods -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Select Payment Method</h3>
+                    <div class="space-y-6">
+                        <!-- USDT TRC20 -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-gray-900 dark:text-white">USDT (TRC20)</h4>
+                                <div class="flex space-x-2">
+                                    <button class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hidden-address" data-full="TKNUswMU6iK9H8Y7txxJaEVP6WtMi8AJi4">
+                                TKNUswMU6i...8AJi4
+                            </div>
+                        </div>
+                        
+                        <!-- USDT ERC20 -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-gray-900 dark:text-white">USDT (ERC20)</h4>
+                                <div class="flex space-x-2">
+                                    <button class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                0xe89e7b43...78a7c1
+                            </div>
+                        </div>
+                        
+                        <!-- USDT BEP20 -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-gray-900 dark:text-white">USDT (BEP20)</h4>
+                                <div class="flex space-x-2">
+                                    <button class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                0xe89e7b43...78a7c1
+                            </div>
+                        </div>
+                        
+                        <!-- BNB -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-gray-900 dark:text-white">BNB (Smart Chain)</h4>
+                                <div class="flex space-x-2">
+                                    <button class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                0xe89e7b43...78a7c1
+                            </div>
+                        </div>
+                        
+                        <!-- Bitcoin -->
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-gray-900 dark:text-white">Bitcoin (BTC)</h4>
+                                <div class="flex space-x-2">
+                                    <button class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hidden-address" data-full="1JEEicvwaD9LZy92DkHZt4NR4ESZucfKrn">
+                                1JEEicvwa...ucfKrn
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Form -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Complete Your Investment</h3>
+                    
+                    <form id="paymentForm" class="space-y-6">
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Your Receiving Wallet Address *
+                            </label>
+                            <input type="text" name="receiving_wallet" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter your wallet address">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Email Address *
+                            </label>
+                            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="your-email@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Selected Plan
+                            </label>
+                            <input type="text" id="selectedPlan" name="plan" readonly class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Investment Amount
+                            </label>
+                            <input type="text" id="selectedAmount" name="amount" readonly class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Expected Return
+                            </label>
+                            <input type="text" id="selectedReturn" name="return" readonly class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        
+                        <!-- Upload Screenshot Section -->
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                            <h4 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Upload Payment Proof</h4>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">
+                                Please upload a screenshot of your transaction receipt showing the transaction hash.
+                            </p>
+                            
+                            <div class="mb-4">
+                                <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Upload Transaction Screenshot
+                                </label>
+                                <input 
+                                    type="file" 
+                                    id="screenshotUpload" 
+                                    accept="image/*" 
+                                    class="block w-full text-sm text-gray-500 dark:text-gray-400
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-lg file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-600 file:text-white
+                                        hover:file:bg-blue-700"
+                                />
+                            </div>
+                            
+                            <div id="previewContainer" class="mt-4 hidden">
+                                <h5 class="font-medium text-gray-700 dark:text-gray-300 mb-2">Preview:</h5>
+                                <img id="previewImage" class="max-h-40 rounded-lg border border-gray-200 dark:border-gray-700 upload-preview" alt="Transaction screenshot preview">
+                            </div>
+                            
+                            <div id="uploadStatus" class="mt-4 p-4 rounded-lg hidden">
+                                <div class="flex items-center">
+                                    <i class="fas fa-spinner fa-spin text-blue-500 mr-3"></i>
+                                    <span class="text-blue-700 dark:text-blue-300">Uploading proof...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                            Submit Payment Details
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Verification Status -->
+            <div id="verificationSection" class="hidden bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Verification Status</h3>
+                
+                <div id="statusPending" class="status-card">
+                    <div class="bg-yellow-500 text-white p-4 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-2xl mr-3"></i>
+                            <div>
+                                <h4 class="text-xl font-bold">Payment Verification in Progress</h4>
+                                <p class="text-lg">Please wait while we verify your transaction. This typically takes 5-15 minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="statusVerified" class="status-card hidden">
+                    <div class="bg-green-500 text-white p-4 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-2xl mr-3"></i>
+                            <div>
+                                <h4 class="text-xl font-bold">Payment Verified!</h4>
+                                <p class="text-lg">Your investment has been confirmed. Your returns will be processed according to your selected plan terms.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="statusCompleted" class="status-card hidden">
+                    <div class="bg-blue-500 text-white p-4 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-double text-2xl mr-3"></i>
+                            <div>
+                                <h4 class="text-xl font-bold">Investment Activated!</h4>
+                                <p class="text-lg">Your arbitrage bot is now actively working on your investment. You can track progress in your dashboard.</p>
+                                <p class="text-lg mt-2 font-bold">Next steps: Returns will be automatically sent to your wallet when your investment period ends.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page pt-16 pb-20 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Contact Support</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Our team is available 24/7 to assist you</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Get in Touch</h3>
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fab fa-telegram text-primary text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">Telegram</h4>
+                                <a href="https://t.me/Gezaine1" class="text-primary dark:text-blue-400 hover:underline">@Gezaine1</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-envelope text-primary text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">Email</h4>
+                                <a href="mailto:cryptoarbbot1@gmail.com" class="text-primary dark:text-blue-400 hover:underline">cryptoarbbot1@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Send a Message</h3>
+                    <form id="contactForm" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name *</label>
+                            <input type="text" name="name" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Your full name">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="your@email.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject *</label>
+                            <input type="text" name="subject" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="What is this regarding?">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message *</label>
+                            <textarea name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Please provide details about your inquiry..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-3 px-6 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page pt-16 pb-20 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">About CryptoArbBot</h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Trusted since 2021</p>
+            </div>
+            
+            <div class="mb-16">
+                <div class="bg-gradient-to-r from-primary to-secondary text-white p-12 rounded-2xl shadow-xl mb-8">
+                    <h2 class="text-3xl font-bold mb-6">Our Mission & Vision</h2>
+                    <p class="text-xl mb-6">
+                        To democratize access to sophisticated crypto arbitrage strategies, making them available to everyone regardless of technical expertise or investment size.
+                    </p>
+                    <p class="text-xl">
+                        We believe in transparency, security, and consistent returns through advanced algorithmic trading that operates 24/7 without human emotion or error.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all text-center border border-gray-100 dark:border-gray-700">
+                        <div class="text-4xl mb-4">🔍</div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Transparency</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Every trade and profit is recorded and available for you to verify.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all text-center border border-gray-100 dark:border-gray-700">
+                        <div class="text-4xl mb-4">🔒</div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Security</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Military-grade encryption and multi-signature wallets protect your funds.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all text-center border border-gray-100 dark:border-gray-700">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Reliability</h3>
+                        <p class="text-gray-600 dark:text-gray-300">99.9% uptime with redundant systems ensuring continuous operation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-8 rounded-2xl shadow-xl">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-3xl mr-4 mt-1"></i>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-3">Important Risk Disclaimer</h3>
+                        <p>
+                            Crypto investments are high-risk. Past returns are not guarantees of future performance. 
+                            Only invest what you can afford to lose. Our arbitrage bot aims to minimize risk through diversification and automated risk management, 
+                            but market conditions can change rapidly. Please read our full Terms & Conditions before investing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Page -->
+    <div id="faq" class="page pt-16 pb-20 bg-white dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Everything you need to know about CryptoArbBot</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8 mb-16">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">How long until I get paid?</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Base Plan: 45 min - 1 hour, Silver Plan: 6-8 hours, Golden Plan: 20-30 days after investment confirmation. All payments are processed automatically upon completion of the investment period.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">How are bonuses applied?</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Bonuses are automatically calculated and added to your account balance. For the Silver Plan, you receive a 15% bonus after completing 3 purchases. For the Golden Plan, you receive a 25% bonus after your first purchase. Bonus amounts are paid out with your returns.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">What if I send the wrong chain?</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Always double-check you are sending to the correct chain (TRC20 vs ERC20 vs BEP20). Transactions sent on the wrong chain may result in permanent loss of funds. If you make this mistake, contact our support team immediately with your transaction details. We will do our best to assist, but recovery is not guaranteed.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">What are the withdrawal rules?</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Withdrawals are processed automatically once your investment period ends. Minimum withdrawal amount is $50. There are no withdrawal fees. Processing time is typically under 1 hour for Base and Silver Plans, and within 24 hours for Golden Plan returns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 dark:bg-gray-800 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="h-12 w-12 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <span class="ml-3 text-2xl font-bold">CryptoArbBot</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        Trusted 24/7 crypto arbitrage bot delivering consistent returns through automated trading strategies since 2021.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-4">
+                        <li><button data-page="home" class="page-link text-gray-400 hover:text-white transition-colors text-lg capitalize">Home</button></li>
+                        <li><button data-page="dashboard" class="page-link text-gray-400 hover:text-white transition-colors text-lg capitalize">Plans</button></li>
+                        <li><button data-page="payment" class="page-link text-gray-400 hover:text-white transition-colors text-lg capitalize">Payment</button></li>
+                        <li><button data-page="contact" class="page-link text-gray-400 hover:text-white transition-colors text-lg capitalize">Contact</button></li>
+                        <li><button data-page="about" class="page-link text-gray-400 hover:text-white transition-colors text-lg capitalize">About</button></li>
+                        <li><button data-page="faq" class="page-link text-gray-400 hover:text-white transition-colors text-lg capitalize">FAQ</button></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Legal</h3>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-lg">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-lg">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-lg">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-lg">Disclaimer</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            cryptoarbbot1@gmail.com
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fab fa-telegram mr-3"></i>
+                            @Gezaine1
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-headset mr-3"></i>
+                            24/7 Live Support
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                    <p class="text-gray-400">
+                        © 2025 CryptoArbBot. All rights reserved. SSL Secured • GDPR Compliant
+                    </p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <span class="px-4 py-2 bg-green-600 text-white rounded-full text-sm font-bold">SSL SECURED</span>
+                        <span class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-bold">GDPR COMPLIANT</span>
+                    </div>
+                </div>
+                <div class="bg-red-900/30 p-4 rounded-xl">
+                    <p class="text-red-200 text-center text-sm">
+                        <strong>Important Risk Disclaimer:</strong> Crypto investments are high-risk. Past returns are not guarantees of future performance. 
+                        Only invest what you can afford to lose. Our arbitrage bot aims to minimize risk through diversification and automated risk management, 
+                        but market conditions can change rapidly. Please read our full Terms & Conditions before investing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky Contact Button -->
+    <div class="sticky-contact">
+        <a href="https://t.me/Gezaine1" class="bg-primary hover:bg-primary/90 text-white p-4 rounded-full shadow-lg transition-all">
+            <i class="fab fa-telegram text-2xl"></i>
+        </a>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-500 text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Submission Successful!</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">
+                Thank you! Your details have been sent successfully. Our team will contact you shortly.
+            </p>
+            <button id="closeModal" class="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Page navigation
+        document.querySelectorAll('.page-link').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetPage = button.getAttribute('data-page');
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(targetPage).classList.add('active');
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const htmlElement = document.documentElement;
+        
+        // Check for saved dark mode preference or respect OS preference
+        const savedDarkMode = localStorage.getItem('darkMode');
+        const osDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedDarkMode === 'true' || (savedDarkMode === null && osDarkMode)) {
+            htmlElement.classList.add('dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun text-lg"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            const isDark = htmlElement.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeToggle.innerHTML = isDark ? 
+                '<i class="fas fa-sun text-lg"></i>' : 
+                '<i class="fas fa-moon text-lg"></i>';
+        });
+
+        // Animated counters
+        let investorsCount = 0;
+        let activePlansCount = 0;
+        let payoutsCount = 0;
+        const investorsElement = document.getElementById('investorsCount');
+        const activePlansElement = document.getElementById('activePlansCount');
+        const payoutsElement = document.getElementById('payoutsCount');
+        
+        const counterTimer = setInterval(() => {
+            if (investorsCount < 12847) investorsCount += 50;
+            if (activePlansCount < 5892) activePlansCount += 20;
+            if (payoutsCount < 8.7) payoutsCount += 0.05;
+            
+            investorsElement.textContent = Math.min(investorsCount, 12847).toLocaleString();
+            activePlansElement.textContent = Math.min(activePlansCount, 5892).toLocaleString();
+            payoutsElement.textContent = Math.min(payoutsCount, 8.7).toFixed(1);
+            
+            if (investorsCount >= 12847 && activePlansCount >= 5892 && payoutsCount >= 8.7) {
+                clearInterval(counterTimer);
+            }
+        }, 20);
+
+        // Investment amount selection
+        let selectedPlan = '';
+        let selectedAmount = '';
+        let selectedReturn = '';
+        
+        document.querySelectorAll('.invest-amount').forEach(button => {
+            button.addEventListener('click', () => {
+                selectedPlan = button.getAttribute('data-plan');
+                selectedAmount = button.getAttribute('data-amount');
+                selectedReturn = button.getAttribute('data-return');
+                
+                // Update payment form fields
+                document.getElementById('selectedPlan').value = selectedPlan;
+                document.getElementById('selectedAmount').value = '$' + Number(selectedAmount).toLocaleString();
+                document.getElementById('selectedReturn').value = '$' + Number(selectedReturn).toLocaleString();
+                
+                // Navigate to payment page
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById('payment').classList.add('active');
+            });
+        });
+
+        // Address reveal and copy
+        document.querySelectorAll('.hidden-address').forEach(addressElement => {
+            addressElement.addEventListener('click', () => {
+                const fullAddress = addressElement.getAttribute('data-full');
+                addressElement.innerHTML = fullAddress;
+                addressElement.className = 'reveal-address';
+            });
+        });
+
+        document.querySelectorAll('.copy-address').forEach(button => {
+            button.addEventListener('click', () => {
+                const addressElement = button.closest('div').querySelector('.hidden-address, .reveal-address');
+                const address = addressElement.getAttribute('data-full');
+                navigator.clipboard.writeText(address);
+                const originalIcon = button.querySelector('i').className;
+                button.querySelector('i').className = 'fas fa-check';
+                setTimeout(() => {
+                    button.querySelector('i').className = originalIcon;
+                }, 2000);
+            });
+        });
+
+        document.querySelectorAll('.toggle-address').forEach(button => {
+            button.addEventListener('click', () => {
+                const addressElement = button.closest('div').querySelector('.hidden-address, .reveal-address');
+                if (addressElement.classList.contains('hidden-address')) {
+                    const fullAddress = addressElement.getAttribute('data-full');
+                    addressElement.innerHTML = fullAddress;
+                    addressElement.className = 'reveal-address';
+                    button.querySelector('i').className = 'fas fa-eye-slash';
+                } else {
+                    const maskedAddress = addressElement.getAttribute('data-full').substring(0, 10) + '...' + addressElement.getAttribute('data-full').substring(addressElement.getAttribute('data-full').length - 8);
+                    addressElement.innerHTML = maskedAddress;
+                    addressElement.className = 'hidden-address';
+                    button.querySelector('i').className = 'fas fa-eye';
+                }
+            });
+        });
+
+        // Screenshot upload functionality
+        const screenshotUpload = document.getElementById('screenshotUpload');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImage = document.getElementById('previewImage');
+        const uploadStatus = document.getElementById('uploadStatus');
+
+        screenshotUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Check file size (5MB limit)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size should be less than 5MB');
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file');
+                    return;
+                }
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submissions
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show upload status
+            uploadStatus.classList.remove('hidden');
+            
+            // Simulate upload process (5 seconds)
+            setTimeout(() => {
+                uploadStatus.classList.add('hidden');
+                
+                // Show verification section
+                document.getElementById('verificationSection').classList.remove('hidden');
+                
+                // Show pending status
+                document.getElementById('statusPending').classList.remove('hidden');
+                
+                // Simulate verification process (5 seconds)
+                setTimeout(() => {
+                    document.getElementById('statusPending').classList.add('hidden');
+                    document.getElementById('statusVerified').classList.remove('hidden');
+                    
+                    // Simulate completion (3 seconds)
+                    setTimeout(() => {
+                        document.getElementById('statusVerified').classList.add('hidden');
+                        document.getElementById('statusCompleted').classList.remove('hidden');
+                    }, 3000);
+                }, 5000);
+            }, 2000);
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real implementation, this would send data to your email
+            document.getElementById('successModal').classList.remove('hidden');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('successModal').classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('successModal')) {
+                document.getElementById('successModal').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+
