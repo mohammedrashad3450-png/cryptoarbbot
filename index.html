@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoArbBot - 24/7 Crypto Arbitrage Investment</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="CryptoArbBot - 24/7 Automated Crypto Arbitrage Investment Platform" />
+    <title>CryptoArbBot | 24/7 Crypto Arbitrage Investment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,8 +18,7 @@
                         accent: '#10B981'
                     },
                     backgroundImage: {
-                        'gradient-radial': 'radial-gradient(circle, var(--tw-gradient-stops))',
-                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234F46E5' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E\")"
+                        'grid-pattern': "url(\"image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234F46E5' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E\")"
                     }
                 }
             }
@@ -83,6 +83,17 @@
         .upload-preview {
             max-height: 200px;
             object-fit: contain;
+        }
+        .payment-option {
+            transition: all 0.3s ease;
+        }
+        .payment-option:hover {
+            background-color: #f9fafb;
+            dark:bg-gray-700;
+        }
+        .expanded {
+            background-color: #f3f4f6;
+            dark:bg-gray-700;
         }
     </style>
 </head>
@@ -233,7 +244,7 @@
         </section>
     </div>
 
-    <!-- Dashboard Page -->
+    <!-- Plan Selection Page -->
     <div id="dashboard" class="page pt-16 pb-20 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="text-center mb-12">
@@ -338,19 +349,57 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-8 rounded-2xl">
-                <div class="flex items-start">
-                    <i class="fas fa-exclamation-triangle text-3xl mr-4 mt-1"></i>
-                    <div>
-                        <h3 class="text-xl font-bold mb-3">Important Risk Disclaimer</h3>
-                        <p>
-                            Crypto investments are high-risk. Past returns are not guarantees of future performance. 
-                            Only invest what you can afford to lose. Our arbitrage bot aims to minimize risk through diversification and automated risk management, 
-                            but market conditions can change rapidly. Please read our full Terms & Conditions before investing.
-                        </p>
-                    </div>
+        </div>
+    </div>
+
+    <!-- Form Page -->
+    <div id="formPage" class="page pt-16 pb-20 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                <div class="flex items-center mb-8">
+                    <button id="backToPlans" class="flex items-center text-primary dark:text-blue-400 hover:text-primary/80 dark:hover:text-blue-300">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Plans
+                    </button>
                 </div>
+                
+                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Investment Details</h2>
+                
+                <form id="investmentForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">First Name *</label>
+                            <input type="text" id="firstName" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Your first name">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name *</label>
+                            <input type="text" id="lastName" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Your last name">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                        <input type="email" id="email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="your-email@example.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Method *</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <input type="radio" id="crypto" name="paymentMethod" value="Crypto" class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="crypto" class="ml-3 block text-gray-700 dark:text-gray-300">Crypto</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="others" name="paymentMethod" value="Others" class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                <label for="others" class="ml-3 block text-gray-700 dark:text-gray-300">Others</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                        OK
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -358,230 +407,187 @@
     <!-- Payment Page -->
     <div id="payment" class="page pt-16 pb-20 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex items-center mb-8">
+                <button id="backToForm" class="flex items-center text-primary dark:text-blue-400 hover:text-primary/80 dark:hover:text-blue-300">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Details
+                </button>
+            </div>
+            
             <div class="text-center mb-12">
                 <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Payment Methods</h1>
-                <p class="text-xl text-gray-600 dark:text-gray-300">Securely fund your investment</p>
+                <p class="text-xl text-gray-600 dark:text-gray-300">Select your preferred payment method</p>
             </div>
             
             <div class="grid md:grid-cols-2 gap-12 mb-16">
                 <!-- Payment Methods -->
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
                     <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Select Payment Method</h3>
-                    <div class="space-y-6">
-                        <!-- USDT TRC20 -->
-                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4" data-type="usdt_trc20">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-bold text-gray-900 dark:text-white">USDT (TRC20)</h4>
-                                <div class="flex space-x-2">
-                                    <button onclick="copyToClipboard('TKNUswMU6iK9H8Y7txxJaEVP6WtMi8AJi4', 'usdt_trc20')" class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                    <button onclick="toggleAddressVisibility('usdt_trc20')" class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="hidden-address" data-full="TKNUswMU6iK9H8Y7txxJaEVP6WtMi8AJi4">
-                                TKNUswMU6i...8AJi4
-                            </div>
-                        </div>
-                        
-                        <!-- USDT ERC20 -->
-                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4" data-type="usdt_erc20">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-bold text-gray-900 dark:text-white">USDT (ERC20)</h4>
-                                <div class="flex space-x-2">
-                                    <button onclick="copyToClipboard('0xe89e7b4307904be7b00202741733ffa0f478a7c1', 'usdt_erc20')" class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                    <button onclick="toggleAddressVisibility('usdt_erc20')" class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
-                                0xe89e7b43...78a7c1
-                            </div>
-                        </div>
-                        
-                        <!-- USDT BEP20 -->
-                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4" data-type="usdt_bep20">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-bold text-gray-900 dark:text-white">USDT (BEP20)</h4>
-                                <div class="flex space-x-2">
-                                    <button onclick="copyToClipboard('0xe89e7b4307904be7b00202741733ffa0f478a7c1', 'usdt_bep20')" class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                    <button onclick="toggleAddressVisibility('usdt_bep20')" class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
-                                0xe89e7b43...78a7c1
-                            </div>
-                        </div>
-                        
-                        <!-- BNB -->
-                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4" data-type="bnb">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-bold text-gray-900 dark:text-white">BNB (Smart Chain)</h4>
-                                <div class="flex space-x-2">
-                                    <button onclick="copyToClipboard('0xe89e7b4307904be7b00202741733ffa0f478a7c1', 'bnb')" class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                    <button onclick="toggleAddressVisibility('bnb')" class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
-                                0xe89e7b43...78a7c1
-                            </div>
-                        </div>
-                        
-                        <!-- Bitcoin -->
-                        <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4" data-type="btc">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="font-bold text-gray-900 dark:text-white">Bitcoin (BTC)</h4>
-                                <div class="flex space-x-2">
-                                    <button onclick="copyToClipboard('1JEEicvwaD9LZy92DkHZt4NR4ESZucfKrn', 'btc')" class="copy-address p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                    <button onclick="toggleAddressVisibility('btc')" class="toggle-address p-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="hidden-address" data-full="1JEEicvwaD9LZy92DkHZt4NR4ESZucfKrn">
-                                1JEEicvwa...ucfKrn
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Payment Form -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
-                    <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Complete Your Investment</h3>
                     
-                    <form id="paymentForm" class="space-y-6">
-                        <div>
-                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Your Receiving Wallet Address *
-                            </label>
-                            <input type="text" name="receiving_wallet" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter your wallet address">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Email Address *
-                            </label>
-                            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="your-email@example.com">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Selected Plan
-                            </label>
-                            <input type="text" id="selectedPlan" name="plan" readonly class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Investment Amount
-                            </label>
-                            <input type="text" id="selectedAmount" name="amount" readonly class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Expected Return
-                            </label>
-                            <input type="text" id="selectedReturn" name="return" readonly class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
-                        </div>
-                        
-                        <!-- Upload Screenshot Section -->
-                        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                            <h4 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Upload Payment Proof</h4>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">
-                                Please upload a screenshot of your transaction receipt showing the transaction hash.
-                            </p>
-                            
-                            <div class="mb-4">
-                                <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Upload Transaction Screenshot
-                                </label>
-                                <input 
-                                    type="file" 
-                                    id="screenshotUpload" 
-                                    accept="image/*" 
-                                    class="block w-full text-sm text-gray-500 dark:text-gray-400
-                                        file:mr-4 file:py-2 file:px-4
-                                        file:rounded-lg file:border-0
-                                        file:text-sm file:font-semibold
-                                        file:bg-blue-600 file:text-white
-                                        hover:file:bg-blue-700"
-                                />
+                    <!-- USDT Section -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4 payment-option" data-type="usdt">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-coins text-2xl mr-3 text-blue-500"></i>
+                                <h4 class="font-bold text-gray-900 dark:text-white">🪙 USDT</h4>
                             </div>
-                            
-                            <div id="previewContainer" class="mt-4 hidden">
-                                <h5 class="font-medium text-gray-700 dark:text-gray-300 mb-2">Preview:</h5>
-                                <img id="previewImage" class="max-h-40 rounded-lg border border-gray-200 dark:border-gray-700 upload-preview" alt="Transaction screenshot preview">
-                            </div>
-                            
-                            <div id="uploadStatus" class="mt-4 p-4 rounded-lg hidden">
-                                <div class="flex items-center">
-                                    <i class="fas fa-spinner fa-spin text-blue-500 mr-3"></i>
-                                    <span class="text-blue-700 dark:text-blue-300">Uploading proof...</span>
+                            <button class="toggle-payment p-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="hidden payment-details">
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h5 class="font-medium text-gray-700 dark:text-gray-300">TRC20</h5>
+                                        <button class="copy-address p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" data-full="TKNUswMU6iK9H8Y7txxJaEVP6WtMi8AJi4">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hidden-address" data-full="TKNUswMU6iK9H8Y7txxJaEVP6WtMi8AJi4">
+                                        TKNUswMU6i...8AJi4
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h5 class="font-medium text-gray-700 dark:text-gray-300">BEP20</h5>
+                                        <button class="copy-address p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                        0xe89e7b43...78a7c1
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h5 class="font-medium text-gray-700 dark:text-gray-300">ERC20</h5>
+                                        <button class="copy-address p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                        0xe89e7b43...78a7c1
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Bitcoin Section -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4 payment-option" data-type="btc">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center">
+                                <i class="fab fa-bitcoin text-2xl mr-3 text-yellow-500"></i>
+                                <h4 class="font-bold text-gray-900 dark:text-white">₿ Bitcoin (BTC)</h4>
+                            </div>
+                            <button class="toggle-payment p-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
                         
-                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl">
-                            Submit Payment Details
+                        <div class="hidden payment-details">
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h5 class="font-medium text-gray-700 dark:text-gray-300">Address</h5>
+                                        <button class="copy-address p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" data-full="1JEEicvwaD9LZy92DkHZt4NR4ESZucfKrn">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hidden-address" data-full="1JEEicvwaD9LZy92DkHZt4NR4ESZucfKrn">
+                                        1JEEicvwa...ucfKrn
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ethereum Section -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 payment-option" data-type="eth">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center">
+                                <i class="fab fa-ethereum text-2xl mr-3 text-purple-500"></i>
+                                <h4 class="font-bold text-gray-900 dark:text-white">💎 Ethereum (ETH)</h4>
+                            </div>
+                            <button class="toggle-payment p-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="hidden payment-details">
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h5 class="font-medium text-gray-700 dark:text-gray-300">Address</h5>
+                                        <button class="copy-address p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hidden-address" data-full="0xe89e7b4307904be7b00202741733ffa0f478a7c1">
+                                        0xe89e7b43...78a7c1
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other Payment Methods -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Other Payment Methods</h3>
+                    
+                    <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-6 rounded-xl mb-8">
+                        <h4 class="text-xl font-bold mb-3">Alternative Payment Options</h4>
+                        <p class="mb-4">If you want other payment methods like below, contact <a href="https://t.me/Gezaine1" class="font-bold underline">HERE</a></p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> Wire Transfer</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> CashApp</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> PayPal</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> Zelle</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> Venmo</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> Bank (US, EURO, UK, etc.)</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-white mr-2"></i> Gift Cards</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-inner">
+                        <h4 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Proof of Payment</h4>
+                        
+                        <div class="mb-6">
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Upload Payment Proof
+                            </label>
+                            <input 
+                                type="file" 
+                                id="screenshotUpload" 
+                                accept="image/*" 
+                                class="block w-full text-sm text-gray-500 dark:text-gray-400
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-semibold
+                                    file:bg-blue-600 file:text-white
+                                    hover:file:bg-blue-700"
+                            />
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Receiving Wallet Address
+                            </label>
+                            <input 
+                                type="text" 
+                                id="receivingAddress" 
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" 
+                                placeholder="Enter your wallet address"
+                            />
+                        </div>
+                        
+                        <button id="submitPayment" class="w-full py-4 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                            Submit Payment
                         </button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Verification Status -->
-            <div id="verificationSection" class="hidden bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
-                <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Verification Status</h3>
-                
-                <div id="statusPending" class="status-card">
-                    <div class="bg-yellow-500 text-white p-4 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-clock text-2xl mr-3"></i>
-                            <div>
-                                <h4 class="text-xl font-bold">Payment Verification in Progress</h4>
-                                <p class="text-lg">Please wait while we verify your transaction. This typically takes 5-15 minutes.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="statusVerified" class="status-card hidden">
-                    <div class="bg-green-500 text-white p-4 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-2xl mr-3"></i>
-                            <div>
-                                <h4 class="text-xl font-bold">Payment Verified!</h4>
-                                <p class="text-lg">Your investment has been confirmed. Your returns will be processed according to your selected plan terms.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="statusCompleted" class="status-card hidden">
-                    <div class="bg-blue-500 text-white p-4 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-double text-2xl mr-3"></i>
-                            <div>
-                                <h4 class="text-xl font-bold">Investment Activated!</h4>
-                                <p class="text-lg">Your arbitrage bot is now actively working on your investment. You can track progress in your dashboard.</p>
-                                <p class="text-lg mt-2 font-bold">Next steps: Returns will be automatically sent to your wallet when your investment period ends.</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -686,20 +692,6 @@
                         <div class="text-4xl mb-4">⚡</div>
                         <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Reliability</h3>
                         <p class="text-gray-600 dark:text-gray-300">99.9% uptime with redundant systems ensuring continuous operation.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-8 rounded-2xl shadow-xl">
-                <div class="flex items-start">
-                    <i class="fas fa-exclamation-triangle text-3xl mr-4 mt-1"></i>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-3">Important Risk Disclaimer</h3>
-                        <p>
-                            Crypto investments are high-risk. Past returns are not guarantees of future performance. 
-                            Only invest what you can afford to lose. Our arbitrage bot aims to minimize risk through diversification and automated risk management, 
-                            but market conditions can change rapidly. Please read our full Terms & Conditions before investing.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -827,13 +819,6 @@
                         <span class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-bold">GDPR COMPLIANT</span>
                     </div>
                 </div>
-                <div class="bg-red-900/30 p-4 rounded-xl">
-                    <p class="text-red-200 text-center text-sm">
-                        <strong>Important Risk Disclaimer:</strong> Crypto investments are high-risk. Past returns are not guarantees of future performance. 
-                        Only invest what you can afford to lose. Our arbitrage bot aims to minimize risk through diversification and automated risk management, 
-                        but market conditions can change rapidly. Please read our full Terms & Conditions before investing.
-                    </p>
-                </div>
             </div>
         </div>
     </footer>
@@ -851,9 +836,9 @@
             <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fas fa-check text-green-500 text-3xl"></i>
             </div>
-            <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Submission Successful!</h3>
+            <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Payment Submitted!</h3>
             <p class="text-gray-600 dark:text-gray-300 mb-6">
-                Thank you! Your details have been sent successfully. Our team will contact you shortly.
+                Thank you! Your payment details have been submitted successfully. Our team will process your investment shortly.
             </p>
             <button id="closeModal" class="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl">
                 Close
@@ -936,126 +921,91 @@
                 selectedAmount = button.getAttribute('data-amount');
                 selectedReturn = button.getAttribute('data-return');
                 
-                // Update payment form fields
-                document.getElementById('selectedPlan').value = selectedPlan;
-                document.getElementById('selectedAmount').value = '$' + Number(selectedAmount).toLocaleString();
-                document.getElementById('selectedReturn').value = '$' + Number(selectedReturn).toLocaleString();
-                
-                // Navigate to payment page
+                // Navigate to form page
                 document.querySelectorAll('.page').forEach(page => {
                     page.classList.remove('active');
                 });
-                document.getElementById('payment').classList.add('active');
+                document.getElementById('formPage').classList.add('active');
+            });
+        });
+
+        // Back buttons
+        document.getElementById('backToPlans').addEventListener('click', () => {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('dashboard').classList.add('active');
+        });
+
+        document.getElementById('backToForm').addEventListener('click', () => {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('formPage').classList.add('active');
+        });
+
+        // Form submission
+        document.getElementById('investmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Navigate to payment page
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('payment').classList.add('active');
+        });
+
+        // Payment method expansion
+        document.querySelectorAll('.toggle-payment').forEach(button => {
+            button.addEventListener('click', function() {
+                const paymentOption = this.closest('.payment-option');
+                const paymentDetails = paymentOption.querySelector('.payment-details');
+                const icon = this.querySelector('i');
+                
+                if (paymentDetails.classList.contains('hidden')) {
+                    paymentDetails.classList.remove('hidden');
+                    icon.className = 'fas fa-chevron-up';
+                } else {
+                    paymentDetails.classList.add('hidden');
+                    icon.className = 'fas fa-chevron-down';
+                }
             });
         });
 
         // Copy address functionality
-        function copyToClipboard(text, addressType) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Update UI to show copied state
-                const copyButton = document.querySelector(`[data-type="${addressType}"] .copy-address`);
-                if (copyButton) {
-                    const originalIcon = copyButton.querySelector('i').className;
-                    copyButton.querySelector('i').className = 'fas fa-check';
-                    setTimeout(() => {
-                        copyButton.querySelector('i').className = originalIcon;
-                    }, 2000);
-                }
-            });
-        }
-
-        // Toggle address visibility functionality
-        function toggleAddressVisibility(addressType) {
-            const addressElement = document.querySelector(`[data-type="${addressType}"] .hidden-address, [data-type="${addressType}"] .reveal-address`);
-            const toggleButton = document.querySelector(`[data-type="${addressType}"] .toggle-address`);
-            
-            if (addressElement && toggleButton) {
-                if (addressElement.classList.contains('hidden-address')) {
-                    const fullAddress = addressElement.getAttribute('data-full');
-                    addressElement.innerHTML = fullAddress;
-                    addressElement.className = 'reveal-address';
-                    toggleButton.querySelector('i').className = 'fas fa-eye-slash';
-                } else {
-                    const fullAddress = addressElement.getAttribute('data-full');
-                    const maskedAddress = fullAddress.substring(0, 10) + '...' + fullAddress.substring(fullAddress.length - 8);
-                    addressElement.innerHTML = maskedAddress;
-                    addressElement.className = 'hidden-address';
-                    toggleButton.querySelector('i').className = 'fas fa-eye';
-                }
-            }
-        }
-
-        // Screenshot upload functionality
-        const screenshotUpload = document.getElementById('screenshotUpload');
-        const previewContainer = document.getElementById('previewContainer');
-        const previewImage = document.getElementById('previewImage');
-        const uploadStatus = document.getElementById('uploadStatus');
-
-        screenshotUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                // Check file size (5MB limit)
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('File size should be less than 5MB');
-                    return;
-                }
+        document.querySelectorAll('.copy-address').forEach(button => {
+            button.addEventListener('click', function() {
+                const address = this.getAttribute('data-full');
+                navigator.clipboard.writeText(address);
                 
-                // Check file type
-                if (!file.type.startsWith('image/')) {
-                    alert('Please upload an image file');
-                    return;
-                }
+                const originalIcon = this.querySelector('i').className;
+                this.querySelector('i').className = 'fas fa-check';
                 
-                // Show preview
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    previewImage.src = event.target.result;
-                    previewContainer.classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Form submissions
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show upload status
-            uploadStatus.classList.remove('hidden');
-            
-            // Simulate upload process (5 seconds)
-            setTimeout(() => {
-                uploadStatus.classList.add('hidden');
-                
-                // Show verification section
-                document.getElementById('verificationSection').classList.remove('hidden');
-                
-                // Show pending status
-                document.getElementById('statusPending').classList.remove('hidden');
-                
-                // Simulate verification process (5 seconds)
                 setTimeout(() => {
-                    document.getElementById('statusPending').classList.add('hidden');
-                    document.getElementById('statusVerified').classList.remove('hidden');
-                    
-                    // Simulate completion (3 seconds)
-                    setTimeout(() => {
-                        document.getElementById('statusVerified').classList.add('hidden');
-                        document.getElementById('statusCompleted').classList.remove('hidden');
-                    }, 3000);
-                }, 5000);
-            }, 2000);
+                    this.querySelector('i').className = originalIcon;
+                }, 2000);
+            });
         });
 
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Address reveal functionality
+        document.querySelectorAll('.hidden-address').forEach(addressElement => {
+            addressElement.addEventListener('click', function() {
+                const fullAddress = this.getAttribute('data-full');
+                this.innerHTML = fullAddress;
+                this.className = 'reveal-address';
+            });
+        });
+
+        // Submit payment
+        document.getElementById('submitPayment').addEventListener('click', function() {
+            const receivingAddress = document.getElementById('receivingAddress').value;
+            if (!receivingAddress) {
+                alert('Please enter your receiving wallet address');
+                return;
+            }
             
-            // In a real implementation, this would send data to your email
-            // For GitHub Pages, we'll show a success message
+            // Show success modal
             document.getElementById('successModal').classList.remove('hidden');
-            
-            // Reset form
-            this.reset();
         });
 
         // Close modal
